@@ -198,3 +198,5 @@ Create `.git/hooks/pre-commit`
 
 ---
 
+#iOS projects code formattings
+### Eduard Panasiuk
