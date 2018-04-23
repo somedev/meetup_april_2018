@@ -1,6 +1,6 @@
-footer: **iOS projects code formatting** - Eduard Panasiuk - https://github.com/somedev
+footer: **iOS projects code formatting tools** - Eduard Panasiuk - https://github.com/somedev
 
-#iOS projects code formattings
+#iOS projects code formatting tools
 ### Eduard Panasiuk
 
 ---
@@ -317,5 +317,5 @@ custom_rules:
 
 ---
 
-#iOS projects code formattings
+#iOS projects code formatting tools
 ### Eduard Panasiuk
