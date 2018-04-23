@@ -11,9 +11,14 @@ footer: **iOS projects code formatting** - Eduard Panasiuk - https://github.com/
 
 * [SwiftFormat](https://github.com/nicklockwood/SwiftFormat)
 
+* [SwiftLint](https://github.com/realm/SwiftLint)
+
 ---
 
 #ClangFormat
+^ на основе библиотеки LibFormat
+^ фигурные скобки, отступы от скобок и названий перменных, выравнивание списка переменных (`=`), лимит по ширине, пробелы просле property, звездочка для указателя, сортировка импортов, отступы в макросах, внутри функций, скоупов, switch/case
+^ не поддерживает Swift пока
 
 ---
 
@@ -87,6 +92,10 @@ Create `.git/hooks/pre-commit`
 ---
 
 #SwiftFormat
+
+^ от Nick Lockwood - автор  iCarousel, активно поддерживается
+^ можно посмотреть исходники - как написать свой парсер языка
+^ включает/выключает self внутри класса для методов и переменных, фигурные скобки, отступы от скобок и названий перменных, убирает дупликаты импорта, сортировка импорта, убирает/переписывает хедеры, убирает лишние скобки, точки с запятой, лишние переменные
 
 ---
 
@@ -194,6 +203,116 @@ Create `.git/hooks/pre-commit`
       swiftformat ${file};
       git add $file;
    done
+```
+
+---
+
+
+#Swift linters
+
+[Tailor - Cross-platform static analyzer and linter for Swift](https://github.com/sleekbyte/tailor)
+<br>
+[SwiftLint - Swift linter](https://github.com/realm/SwiftLint)
+
+---
+
+#SwiftLint
+
+^ проверка стиля и анализ кода, генерация Error/Warning
+^ использует Clang и SourceKit
+
+---
+
+#SwiftLint
+
+**Instalation:**
+
+```bash
+brew install swiftlint
+```
+
+```bash
+pod 'SwiftLint'
+```
+
+---
+
+#SwiftLint usage
+
+**Xcode build phase**
+
+Install pod:
+
+```ruby
+pod 'SwiftLint'
+```
+
+Add build phase:
+
+```bash
+"${PODS_ROOT}/SwiftLint/swiftlint autocorrect"
+```
+
+---
+
+#SwiftLint usage
+
+**Fastlane**
+
+
+```ruby
+swiftlint(
+    mode: :lint,                            # SwiftLint mode: :lint (default) or :autocorrect
+    executable: "Pods/SwiftLint/swiftlint", # The SwiftLint binary path (optional). Important if you've installed it via CocoaPods
+    path: "/path/to/lint",                  # Specify path to lint (optional)
+    output_file: "swiftlint.result.json",   # The path of the output file (optional)
+    reporter: "json",                       # The custom reporter to use (optional)
+    config_file: ".swiftlint-ci.yml",       # The path of the configuration file (optional)
+    files: [                                # List of files to process (optional)
+        "AppDelegate.swift",
+        "path/to/project/Model.swift"
+    ],
+    ignore_exit_status: true,               # Allow fastlane to continue even if SwiftLint returns a non-zero exit status (Default: false)
+    quiet: true,                            # Don't print status logs like 'Linting ' & 'Done linting' (Default: false)
+    strict: true                            # Fail on warnings? (Default: false)
+)
+```
+
+
+---
+
+#SwiftLint
+
+[Supported rules](https://github.com/realm/SwiftLint/blob/master/Rules.md)
+
+`.swiftlint.yml` in project directory
+
+Supports nested configurations (`.swiftlint.yml` in directory structure)
+
+^ отступы, пробелы, перенос строки
+^ включение/выключение правил  форматирования в коде
+
+---
+
+#SwiftLint
+
+**Custom rules**
+
+```yml
+custom_rules:
+  pirates_beat_ninjas: # rule identifier
+    included: ".*\\.swift" # regex that defines paths to include during linting. optional.
+    excluded: ".*Test\\.swift" # regex that defines paths to exclude during linting. optional
+    name: "Pirates Beat Ninjas" # rule name. optional.
+    regex: "([n,N]inja)" # matching pattern
+    match_kinds: # SyntaxKinds to match. optional.
+      - comment
+      - identifier
+    message: "Pirates are better than ninjas." # violation message. optional.
+    severity: error # violation severity. optional.
+  no_hiding_in_strings:
+    regex: "([n,N]inja)"
+    match_kinds: string
 ```
 
 ---
